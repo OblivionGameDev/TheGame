@@ -44,6 +44,24 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EquipPistol"",
+                    ""type"": ""Button"",
+                    ""id"": ""37174020-a6c7-4194-ab72-6b9ab7c4b103"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EquipAssaultRiffle"",
+                    ""type"": ""Button"",
+                    ""id"": ""48bb36f0-591f-4c72-b26b-566246daf87d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -68,6 +86,28 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""560d76b6-0e71-47d9-b461-4891a501c3ad"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EquipPistol"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b4ba3d3e-635a-4fcb-881e-9918c0fdfb15"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EquipAssaultRiffle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -78,6 +118,8 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
+        m_Player_EquipPistol = m_Player.FindAction("EquipPistol", throwIfNotFound: true);
+        m_Player_EquipAssaultRiffle = m_Player.FindAction("EquipAssaultRiffle", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -139,12 +181,16 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Look;
+    private readonly InputAction m_Player_EquipPistol;
+    private readonly InputAction m_Player_EquipAssaultRiffle;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Look => m_Wrapper.m_Player_Look;
+        public InputAction @EquipPistol => m_Wrapper.m_Player_EquipPistol;
+        public InputAction @EquipAssaultRiffle => m_Wrapper.m_Player_EquipAssaultRiffle;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -160,6 +206,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Look.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnLook;
+                @EquipPistol.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipPistol;
+                @EquipPistol.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipPistol;
+                @EquipPistol.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipPistol;
+                @EquipAssaultRiffle.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipAssaultRiffle;
+                @EquipAssaultRiffle.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipAssaultRiffle;
+                @EquipAssaultRiffle.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipAssaultRiffle;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -170,6 +222,12 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
+                @EquipPistol.started += instance.OnEquipPistol;
+                @EquipPistol.performed += instance.OnEquipPistol;
+                @EquipPistol.canceled += instance.OnEquipPistol;
+                @EquipAssaultRiffle.started += instance.OnEquipAssaultRiffle;
+                @EquipAssaultRiffle.performed += instance.OnEquipAssaultRiffle;
+                @EquipAssaultRiffle.canceled += instance.OnEquipAssaultRiffle;
             }
         }
     }
@@ -178,5 +236,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnEquipPistol(InputAction.CallbackContext context);
+        void OnEquipAssaultRiffle(InputAction.CallbackContext context);
     }
 }
