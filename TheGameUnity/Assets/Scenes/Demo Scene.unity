@@ -433,7 +433,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 387304964}
-  m_LocalRotation: {x: 0.04885211, y: -0.000000017052617, z: 8.340521e-10, w: 0.99880606}
+  m_LocalRotation: {x: 0.04885211, y: -0.00000001705262, z: 8.3405227e-10, w: 0.99880606}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -796,7 +796,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 409785551}
-  m_LocalRotation: {x: 0.030676242, y: -0.000000017530612, z: 5.196415e-10, w: 0.99952936}
+  m_LocalRotation: {x: 0.030676242, y: -0.000000017568913, z: 5.1851223e-10, w: 0.99952936}
   m_LocalPosition: {x: 0.6, y: 2, z: -3.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -4483,7 +4483,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2024166358}
-  m_LocalRotation: {x: 0.0125382785, y: 0.000000017235248, z: -2.1611733e-10, w: 0.9999214}
+  m_LocalRotation: {x: 0.012538279, y: -0.000000017189931, z: 2.1554913e-10, w: 0.9999214}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -4803,6 +4803,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2133785918}
   - component: {fileID: 2133785919}
+  - component: {fileID: 2133785920}
   m_Layer: 0
   m_Name: AssaultRifflePivot
   m_TagString: AssaultRiffleInHand
@@ -4837,6 +4838,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48948dfe9d76b07488dacd46a7955fa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2133785920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2133785917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 575a3cb3aae847843a284edd597c3394, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFiring: 0
 --- !u!1 &2135919569
 GameObject:
   m_ObjectHideFlags: 0
@@ -5268,10 +5282,11 @@ GameObject:
   - component: {fileID: 543450651673726780}
   - component: {fileID: 5866666019842053446}
   - component: {fileID: 1812592204}
+  - component: {fileID: 919132148001658248}
   - component: {fileID: 1812592205}
   - component: {fileID: 919132148001658247}
   - component: {fileID: 1812592206}
-  - component: {fileID: 919132148001658248}
+  - component: {fileID: 919132148001658249}
   m_Layer: 0
   m_Name: Main Character
   m_TagString: Untagged
@@ -5297,6 +5312,8 @@ MonoBehaviour:
   pistolAimLayer: {fileID: 1000761891}
   assaultRiffleWeaponPoseLayer: {fileID: 688220141}
   assaultRiffleAimLayer: {fileID: 1385718991}
+  pistolEquipped: 0
+  assaultRiffleEquiped: 0
 --- !u!143 &919132148001658248
 CharacterController:
   m_ObjectHideFlags: 0
@@ -5315,6 +5332,22 @@ CharacterController:
   m_SkinWidth: 0.0001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0.92, z: 0}
+--- !u!114 &919132148001658249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148001658246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45495455c88147e44a884e20d467b45f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  assaultRiffleAimLayer: {fileID: 1385718991}
+  pistolAimLayer: {fileID: 1000761891}
+  assaultRiffleAimed: 0
+  pistolAimed: 0
 --- !u!1 &950778532788209118
 GameObject:
   m_ObjectHideFlags: 0

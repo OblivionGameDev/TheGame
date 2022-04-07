@@ -15,22 +15,21 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
     public Rig assaultRiffleAimLayer;
 
     private PlayerControls playerControls;
+    private PlayerWeaponAim playerWeaponAim;
 
     private GameObject pistolOnLeg;
     private GameObject pistolInHand;
     private GameObject assaultRiffleOnBack; 
     private GameObject assaultRiffleInHand;
 
-    private bool pistolEquipped;
-    private bool pistolAimed;
-    private bool assaultRiffleEquiped;
-    private bool assaultRiffleAimed;
-
-    private float aimDuration = 0.15f;
+    [HideInInspector] public bool pistolEquipped;
+    [HideInInspector] public bool assaultRiffleEquiped;
+    
     // Start is called before the first frame update
     void Awake()
     {
         playerControls = new PlayerControls();
+        playerWeaponAim = GetComponent<PlayerWeaponAim>();
         pistolOnLeg = GameObject.FindGameObjectWithTag("PistolOnLeg");
         pistolInHand = GameObject.FindGameObjectWithTag("PistolInHand");
         assaultRiffleOnBack = GameObject.FindGameObjectWithTag("AssaultRiffleOnBack");
@@ -57,24 +56,8 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
             assaultRiffleInHandLayer.weight = 0f;
             assaultRiffleWeaponPoseLayer.weight = 0f;
             assaultRiffleAimLayer.weight = 0f;
+            playerWeaponAim.assaultRiffleAimed = false;
             assaultRiffleEquiped = false;
-        }
-        // Aiming AssaultRiffle
-        if (playerControls.Player.WeaponAim.triggered && assaultRiffleEquiped && !assaultRiffleAimed)
-        {
-            assaultRiffleAimed = true;
-        }
-        else if (playerControls.Player.WeaponAim.triggered && assaultRiffleAimed)
-        {
-            assaultRiffleAimed = false;
-        }
-        if (assaultRiffleAimed)
-        {
-            assaultRiffleAimLayer.weight += Time.deltaTime / aimDuration;
-        }
-        else if (!assaultRiffleAimed)
-        {
-            assaultRiffleAimLayer.weight -= Time.deltaTime / aimDuration;
         }
 
         // Equipping Pistol
@@ -91,25 +74,8 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
             pistolOnLeg.SetActive(true);
             pistolInHandLayer.weight = 0f;
             pistolAimLayer.weight = 0f;
+            playerWeaponAim.pistolAimed = false;
             pistolEquipped = false;
-        }
-
-        // Aiming Pistol
-        if (playerControls.Player.WeaponAim.triggered && pistolEquipped && !pistolAimed)
-        {
-            pistolAimed = true;
-        }
-        else if (playerControls.Player.WeaponAim.triggered && pistolAimed)
-        {
-            pistolAimed = false;
-        } 
-        if (pistolAimed)
-        {
-            pistolAimLayer.weight += Time.deltaTime / aimDuration;
-        }
-        else if (!pistolAimed) 
-        {
-            pistolAimLayer.weight -= Time.deltaTime / aimDuration;
         }
 
     }
