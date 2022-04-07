@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "WeaponAim",
+                    "type": "Button",
+                    "id": "d9d0c72a-f09a-410d-bedc-31727d101ef5",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -84,6 +93,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "EquipAssaultRiffle",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7ce08ab8-0162-4a6b-9772-6839cfd65017",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "WeaponAim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

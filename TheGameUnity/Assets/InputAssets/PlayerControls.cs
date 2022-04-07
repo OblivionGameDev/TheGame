@@ -62,6 +62,15 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WeaponAim"",
+                    ""type"": ""Button"",
+                    ""id"": ""d9d0c72a-f09a-410d-bedc-31727d101ef5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -108,6 +117,17 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                     ""action"": ""EquipAssaultRiffle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7ce08ab8-0162-4a6b-9772-6839cfd65017"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WeaponAim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -120,6 +140,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         m_Player_Look = m_Player.FindAction("Look", throwIfNotFound: true);
         m_Player_EquipPistol = m_Player.FindAction("EquipPistol", throwIfNotFound: true);
         m_Player_EquipAssaultRiffle = m_Player.FindAction("EquipAssaultRiffle", throwIfNotFound: true);
+        m_Player_WeaponAim = m_Player.FindAction("WeaponAim", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -183,6 +204,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Look;
     private readonly InputAction m_Player_EquipPistol;
     private readonly InputAction m_Player_EquipAssaultRiffle;
+    private readonly InputAction m_Player_WeaponAim;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -191,6 +213,7 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Player_Look;
         public InputAction @EquipPistol => m_Wrapper.m_Player_EquipPistol;
         public InputAction @EquipAssaultRiffle => m_Wrapper.m_Player_EquipAssaultRiffle;
+        public InputAction @WeaponAim => m_Wrapper.m_Player_WeaponAim;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -212,6 +235,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @EquipAssaultRiffle.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipAssaultRiffle;
                 @EquipAssaultRiffle.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipAssaultRiffle;
                 @EquipAssaultRiffle.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEquipAssaultRiffle;
+                @WeaponAim.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponAim;
+                @WeaponAim.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponAim;
+                @WeaponAim.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnWeaponAim;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -228,6 +254,9 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
                 @EquipAssaultRiffle.started += instance.OnEquipAssaultRiffle;
                 @EquipAssaultRiffle.performed += instance.OnEquipAssaultRiffle;
                 @EquipAssaultRiffle.canceled += instance.OnEquipAssaultRiffle;
+                @WeaponAim.started += instance.OnWeaponAim;
+                @WeaponAim.performed += instance.OnWeaponAim;
+                @WeaponAim.canceled += instance.OnWeaponAim;
             }
         }
     }
@@ -238,5 +267,6 @@ public partial class @PlayerControls : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnEquipPistol(InputAction.CallbackContext context);
         void OnEquipAssaultRiffle(InputAction.CallbackContext context);
+        void OnWeaponAim(InputAction.CallbackContext context);
     }
 }
