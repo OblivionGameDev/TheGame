@@ -13,7 +13,9 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
     public Rig pistolAimLayer;
     public Rig assaultRiffleWeaponPoseLayer;
     public Rig assaultRiffleAimLayer;
+
     private PlayerControls playerControls;
+
     private GameObject pistolOnLeg;
     private GameObject pistolInHand;
     private GameObject assaultRiffleOnBack; 
@@ -23,6 +25,8 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
     private bool pistolAimed;
     private bool assaultRiffleEquiped;
     private bool assaultRiffleAimed;
+
+    private float aimDuration = 0.15f;
     // Start is called before the first frame update
     void Awake()
     {
@@ -58,13 +62,19 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
         // Aiming AssaultRiffle
         if (playerControls.Player.WeaponAim.triggered && assaultRiffleEquiped && !assaultRiffleAimed)
         {
-            assaultRiffleAimLayer.weight = 1f;
             assaultRiffleAimed = true;
         }
         else if (playerControls.Player.WeaponAim.triggered && assaultRiffleAimed)
         {
-            assaultRiffleAimLayer.weight = 0f;
             assaultRiffleAimed = false;
+        }
+        if (assaultRiffleAimed)
+        {
+            assaultRiffleAimLayer.weight += Time.deltaTime / aimDuration;
+        }
+        else if (!assaultRiffleAimed)
+        {
+            assaultRiffleAimLayer.weight -= Time.deltaTime / aimDuration;
         }
 
         // Equipping Pistol
@@ -87,13 +97,19 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
         // Aiming Pistol
         if (playerControls.Player.WeaponAim.triggered && pistolEquipped && !pistolAimed)
         {
-            pistolAimLayer.weight = 1f;
             pistolAimed = true;
         }
         else if (playerControls.Player.WeaponAim.triggered && pistolAimed)
         {
-            pistolAimLayer.weight = 0f;
             pistolAimed = false;
+        } 
+        if (pistolAimed)
+        {
+            pistolAimLayer.weight += Time.deltaTime / aimDuration;
+        }
+        else if (!pistolAimed) 
+        {
+            pistolAimLayer.weight -= Time.deltaTime / aimDuration;
         }
 
     }
