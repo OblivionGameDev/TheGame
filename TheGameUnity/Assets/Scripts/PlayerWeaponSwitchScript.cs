@@ -74,7 +74,7 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
             pistolOnLeg.SetActive(true);
             pistolInHandLayer.weight = 0f;
             pistolAimLayer.weight = 0f;
-            playerWeaponAim.pistolAimed = false;
+            playerWeaponAim.pistolAimed = false;    
             pistolEquipped = false;
         }
 
