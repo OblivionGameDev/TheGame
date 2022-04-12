@@ -20,12 +20,14 @@ public class RaycastAssaultRiffle : MonoBehaviour
     public ParticleSystem hitEffect;
     public ParticleSystem muzzleFlash;
     public Transform raycastOrigin;
-    public Transform raycastDestination; 
+    public Transform raycastDestination;    
+    public Cinemachine.CinemachineFreeLook playerCamera;
 
     Ray ray;
     RaycastHit hitInfo;
     private float accumulatedTime;
     private float maxLifetime = 3f;
+    private WeaponRecoil recoil;
     List<Bullet> bullets = new List<Bullet>();
 
     Vector3 GetPosition(Bullet bullet)
@@ -45,11 +47,17 @@ public class RaycastAssaultRiffle : MonoBehaviour
         return bullet;
     }  
 
+    void Awake()
+    {
+        recoil = GetComponent<WeaponRecoil>();
+    }
+
     public void StartFiring()
     {
         isFiring = true;
         accumulatedTime = 0.0f;
         FireBullet();
+        //recoil.Reset();
     }
 
     public void UpdateFiring(float deltaTime)
@@ -117,6 +125,6 @@ public class RaycastAssaultRiffle : MonoBehaviour
         Vector3 velocity = (raycastDestination.position - raycastOrigin.position).normalized * bulletSpeed; 
         var bullet = CreateBullet(raycastOrigin.position, velocity);
         bullets.Add(bullet);
-      
+        recoil.GenerateRecoil();
     }
 }

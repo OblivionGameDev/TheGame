@@ -6,6 +6,11 @@ using UnityEngine.InputSystem;
 public class PlayerLocomotionScript : MonoBehaviour
 {
     [HideInInspector] public Animator playerAnimator;
+    public Cinemachine.AxisState xAxis;
+    public Cinemachine.AxisState yAxis;
+    private Cinemachine.CinemachineInputProvider inputAxisProvider;
+    public Transform cameraLookAt;
+
     [SerializeField] private float smoothInputSpeed = 0.1f;
     private Camera mainCamera; 
     private PlayerControls playerControls;
@@ -22,11 +27,19 @@ public class PlayerLocomotionScript : MonoBehaviour
         playerControls = new PlayerControls();   
         playerAnimator = GetComponent<Animator>();
         mainCamera = Camera.main;
+        inputAxisProvider = GetComponent<Cinemachine.CinemachineInputProvider>();
+        xAxis.SetInputAxisProvider(0, inputAxisProvider);
+        yAxis.SetInputAxisProvider(1, inputAxisProvider);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        xAxis.Update(Time.deltaTime);
+        yAxis.Update(Time.deltaTime);
+
+        cameraLookAt.eulerAngles = new Vector3(yAxis.Value, xAxis.Value, 0);
+
         float yawCamera = mainCamera.transform.rotation.eulerAngles.y;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yawCamera, 0), turnSpeed * Time.fixedDeltaTime);
 

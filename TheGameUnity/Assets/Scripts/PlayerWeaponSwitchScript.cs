@@ -57,6 +57,7 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
             assaultRiffleWeaponPoseLayer.weight = 0f;
             assaultRiffleAimLayer.weight = 0f;
             playerWeaponAim.assaultRiffleAimed = false;
+            playerWeaponAim.cameraAnimator.SetBool("isAiming", false);
             assaultRiffleEquiped = false;
         }
 
@@ -74,7 +75,8 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
             pistolOnLeg.SetActive(true);
             pistolInHandLayer.weight = 0f;
             pistolAimLayer.weight = 0f;
-            playerWeaponAim.pistolAimed = false;    
+            playerWeaponAim.pistolAimed = false;
+            playerWeaponAim.cameraAnimator.SetBool("isAiming", false);    
             pistolEquipped = false;
         }
 

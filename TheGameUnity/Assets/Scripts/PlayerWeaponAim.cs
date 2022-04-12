@@ -9,14 +9,15 @@ public class PlayerWeaponAim : MonoBehaviour
     public Rig assaultRiffleAimLayer;
     public Rig pistolAimLayer;
 
-    [HideInInspector] public bool assaultRiffleAimed;
-    [HideInInspector] public bool pistolAimed;
+
+    [HideInInspector] public bool assaultRiffleAimed = false;
+    [HideInInspector] public bool pistolAimed = false;
+    [HideInInspector] public Animator cameraAnimator;
 
     private PlayerControls playerControls;
     private PlayerWeaponSwitchScript playerWeaponSwitchScript;
     private RaycastAssaultRiffle raycastAssaultRiffleScript;
     private RaycastPistol raycastPistolScript;
-
     private float aimDuration = 0.15f;
 
     private bool shootButtonPressed;
@@ -25,6 +26,7 @@ public class PlayerWeaponAim : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        cameraAnimator = GameObject.FindGameObjectWithTag("VirtualCamera").GetComponent<Animator>();
         playerControls = new PlayerControls();
         playerWeaponSwitchScript = GetComponent<PlayerWeaponSwitchScript>();
         raycastAssaultRiffleScript = GetComponentInChildren<RaycastAssaultRiffle>();
@@ -38,10 +40,12 @@ public class PlayerWeaponAim : MonoBehaviour
         if (playerControls.Player.WeaponAim.triggered && playerWeaponSwitchScript.assaultRiffleEquiped && !assaultRiffleAimed)
         {
             assaultRiffleAimed = true;
+            cameraAnimator.SetBool("isAiming", true);
         }
         else if (playerControls.Player.WeaponAim.triggered && assaultRiffleAimed)
         {
             assaultRiffleAimed = false;
+            cameraAnimator.SetBool("isAiming", false);
         }
         if (assaultRiffleAimed)
         {
@@ -56,10 +60,12 @@ public class PlayerWeaponAim : MonoBehaviour
         if (playerControls.Player.WeaponAim.triggered && playerWeaponSwitchScript.pistolEquipped && !pistolAimed)
         {
             pistolAimed = true;
+            cameraAnimator.SetBool("isAiming", true);
         }
         else if (playerControls.Player.WeaponAim.triggered && pistolAimed)
         {
             pistolAimed = false;
+            cameraAnimator.SetBool("isAiming", false);
         } 
         if (pistolAimed)
         {
@@ -71,7 +77,7 @@ public class PlayerWeaponAim : MonoBehaviour
         }
 
         // Shooting with Assault Riffle
-        if (shootButtonPressed && assaultRiffleAimed)
+        if (shootButtonPressed && assaultRiffleAimed && playerWeaponSwitchScript.assaultRiffleEquiped)
         {
             raycastAssaultRiffleScript.StartFiring();
         }
@@ -82,7 +88,7 @@ public class PlayerWeaponAim : MonoBehaviour
             shootButtonReleased = false;
         }
         // Shooting with Pistol
-        if (playerControls.Player.Shoot.triggered && pistolAimed)
+        if (playerControls.Player.Shoot.triggered && pistolAimed && playerWeaponSwitchScript.pistolEquipped)
         {
             raycastPistolScript.StartFiring();
         } 

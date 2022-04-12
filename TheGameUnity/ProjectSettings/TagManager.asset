@@ -8,6 +8,7 @@ TagManager:
   - PistolInHand
   - AssaultRiffleOnBack
   - AssaultRiffleInHand
+  - VirtualCamera
   layers:
   - Default
   - TransparentFX

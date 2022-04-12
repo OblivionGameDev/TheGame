@@ -120,7 +120,7 @@
                     "name": "",
                     "id": "0288f595-427b-4172-8c4d-7925c18d4947",
                     "path": "<Gamepad>/buttonSouth",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "Shoot",
