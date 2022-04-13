@@ -17,13 +17,21 @@ public class PlayerLocomotionScript : MonoBehaviour
     private float turnSpeed = 15f;
     private float xValue;
     private float yValue;
+    private float walkMin = -0.5f;
+    private float walkMax = 0.5f;
+    private float runMin = -1f;
+    private float runMax = 1f;
+    private float newValueX;
+    private float newValueY;
     private Vector2 rawInputVector;
     private Vector2 currentInputVector;
     private Vector2 smoothInputVelocity;
+    private bool isRunning;
 
     // Start is called before the first frame update
     void Awake()
     {
+        playerControls.Player.Run.performed += ctx => RunBool();
         playerControls = new PlayerControls();   
         playerAnimator = GetComponent<Animator>();
         mainCamera = Camera.main;
@@ -45,10 +53,34 @@ public class PlayerLocomotionScript : MonoBehaviour
 
         rawInputVector = playerControls.Player.Move.ReadValue<Vector2>();
         currentInputVector = Vector2.SmoothDamp(currentInputVector, rawInputVector, ref smoothInputVelocity, smoothInputSpeed);
-        playerAnimator.SetFloat("xValue",currentInputVector.x);
-        playerAnimator.SetFloat("yValue", currentInputVector.y);
+
+        if (isRunning)
+        {
+            newValueX = Mathf.Clamp(currentInputVector.x, runMin, runMax);
+            newValueY = Mathf.Clamp(currentInputVector.y, runMin, runMax);
+        } 
+        else
+        {
+            newValueX = Mathf.Clamp(currentInputVector.x, walkMin, walkMax);
+            newValueY = Mathf.Clamp(currentInputVector.y, walkMin, walkMax);
+        }
+        playerAnimator.SetFloat("xValue", newValueX);
+        playerAnimator.SetFloat("yValue", newValueY);
     }
 
+    void RunBool()
+    {
+        if (!isRunning)
+        {
+            isRunning = true;
+            Debug.Log("True");
+        }
+        else
+        {
+            isRunning = false;
+            Debug.Log("False");
+        }
+    }
     void OnEnable()
     {
         playerControls.Enable();

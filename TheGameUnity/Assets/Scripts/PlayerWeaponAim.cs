@@ -13,19 +13,20 @@ public class PlayerWeaponAim : MonoBehaviour
     [HideInInspector] public bool assaultRiffleAimed = false;
     [HideInInspector] public bool pistolAimed = false;
     [HideInInspector] public Animator cameraAnimator;
-
-    private PlayerControls playerControls;
-    private PlayerWeaponSwitchScript playerWeaponSwitchScript;
+    [HideInInspector] public PlayerControls playerControls;
+    [HideInInspector] public PlayerWeaponSwitchScript playerWeaponSwitchScript;
+    [HideInInspector] public bool shootButtonPressed;
+    [HideInInspector] public bool shootButtonReleased;
+    
+    private PlayerLocomotionScript playerLocomotionScript;
     private RaycastAssaultRiffle raycastAssaultRiffleScript;
     private RaycastPistol raycastPistolScript;
     private float aimDuration = 0.15f;
 
-    private bool shootButtonPressed;
-    private bool shootButtonReleased;
-
     // Start is called before the first frame update
     void Awake()
     {
+        playerLocomotionScript = GetComponent<PlayerLocomotionScript>();
         cameraAnimator = GameObject.FindGameObjectWithTag("VirtualCamera").GetComponent<Animator>();
         playerControls = new PlayerControls();
         playerWeaponSwitchScript = GetComponent<PlayerWeaponSwitchScript>();
@@ -41,11 +42,15 @@ public class PlayerWeaponAim : MonoBehaviour
         {
             assaultRiffleAimed = true;
             cameraAnimator.SetBool("isAiming", true);
+            playerLocomotionScript.xAxis.m_MaxSpeed = 100;
+            playerLocomotionScript.yAxis.m_MaxSpeed = 100;
         }
         else if (playerControls.Player.WeaponAim.triggered && assaultRiffleAimed)
         {
             assaultRiffleAimed = false;
             cameraAnimator.SetBool("isAiming", false);
+            playerLocomotionScript.xAxis.m_MaxSpeed = 200;
+            playerLocomotionScript.yAxis.m_MaxSpeed = 200;
         }
         if (assaultRiffleAimed)
         {
@@ -61,11 +66,15 @@ public class PlayerWeaponAim : MonoBehaviour
         {
             pistolAimed = true;
             cameraAnimator.SetBool("isAiming", true);
+            playerLocomotionScript.xAxis.m_MaxSpeed = 100;
+            playerLocomotionScript.yAxis.m_MaxSpeed = 100;
         }
         else if (playerControls.Player.WeaponAim.triggered && pistolAimed)
         {
             pistolAimed = false;
             cameraAnimator.SetBool("isAiming", false);
+            playerLocomotionScript.xAxis.m_MaxSpeed = 200;
+            playerLocomotionScript.yAxis.m_MaxSpeed = 200;
         } 
         if (pistolAimed)
         {

@@ -16,7 +16,7 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
 
     private PlayerControls playerControls;
     private PlayerWeaponAim playerWeaponAim;
-
+    private PlayerLocomotionScript playerLocomotionScript;
     private GameObject pistolOnLeg;
     private GameObject pistolInHand;
     private GameObject assaultRiffleOnBack; 
@@ -28,6 +28,7 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        playerLocomotionScript = GetComponent<PlayerLocomotionScript>();
         playerControls = new PlayerControls();
         playerWeaponAim = GetComponent<PlayerWeaponAim>();
         pistolOnLeg = GameObject.FindGameObjectWithTag("PistolOnLeg");
@@ -58,6 +59,8 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
             assaultRiffleAimLayer.weight = 0f;
             playerWeaponAim.assaultRiffleAimed = false;
             playerWeaponAim.cameraAnimator.SetBool("isAiming", false);
+            playerLocomotionScript.xAxis.m_MaxSpeed = 200;
+            playerLocomotionScript.yAxis.m_MaxSpeed = 200;
             assaultRiffleEquiped = false;
         }
 
@@ -76,7 +79,9 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
             pistolInHandLayer.weight = 0f;
             pistolAimLayer.weight = 0f;
             playerWeaponAim.pistolAimed = false;
-            playerWeaponAim.cameraAnimator.SetBool("isAiming", false);    
+            playerWeaponAim.cameraAnimator.SetBool("isAiming", false);
+            playerLocomotionScript.xAxis.m_MaxSpeed = 200;
+            playerLocomotionScript.yAxis.m_MaxSpeed = 200;    
             pistolEquipped = false;
         }
 
