@@ -12,6 +12,7 @@ public class PlayerLocomotionScript : MonoBehaviour
     public Transform cameraLookAt;
 
     [SerializeField] private float smoothInputSpeed = 0.1f;
+    private PlayerWeaponSwitchScript playerWeaponSwitchScript;
     private Camera mainCamera; 
     private PlayerControls playerControls;
     private float turnSpeed = 15f;
@@ -31,15 +32,32 @@ public class PlayerLocomotionScript : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        playerControls.Player.Run.performed += ctx => RunBool();
+        playerWeaponSwitchScript = GetComponent<PlayerWeaponSwitchScript>();
         playerControls = new PlayerControls();   
+        playerControls.Player.Run.performed += ctx => RunBool();
+        playerControls.Player.Crouch.performed += ctx => CrouchingBool();
         playerAnimator = GetComponent<Animator>();
         mainCamera = Camera.main;
         inputAxisProvider = GetComponent<Cinemachine.CinemachineInputProvider>();
         xAxis.SetInputAxisProvider(0, inputAxisProvider);
         yAxis.SetInputAxisProvider(1, inputAxisProvider);
     }
-
+    void Update()
+    {
+        if (playerAnimator.GetBool("isCrouching"))
+        {
+            playerWeaponSwitchScript.assaultRiffleInHandLayer.weight = 0f;
+            playerWeaponSwitchScript.assaultRiffleWeaponPoseLayer.weight = 0f;
+            playerWeaponSwitchScript.assaultRiffleAimLayer.weight = 0f;
+            playerWeaponSwitchScript.pistolInHandLayer.weight = 0f;
+            playerWeaponSwitchScript.pistolAimLayer.weight = 0f;
+            playerWeaponSwitchScript.bodyAimLayer.weight = 0f;
+        }
+        else if (!playerAnimator.GetBool("isCrouching"))
+        {
+            playerWeaponSwitchScript.bodyAimLayer.weight = 1f;
+        }
+    }
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -73,12 +91,22 @@ public class PlayerLocomotionScript : MonoBehaviour
         if (!isRunning)
         {
             isRunning = true;
-            Debug.Log("True");
         }
         else
         {
             isRunning = false;
-            Debug.Log("False");
+        }
+    }
+
+    void CrouchingBool()
+    {
+        if (playerAnimator.GetBool("isCrouching"))
+        {
+            playerAnimator.SetBool("isCrouching", false);
+        }
+        else if (!playerAnimator.GetBool("isCrouching"))
+        {
+            playerAnimator.SetBool("isCrouching", true);
         }
     }
     void OnEnable()

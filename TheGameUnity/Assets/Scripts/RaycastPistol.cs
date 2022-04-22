@@ -22,6 +22,7 @@ public class RaycastPistol : MonoBehaviour
     public Transform raycastOrigin;
     public Transform raycastDestination; 
 
+    private ZombieHealth zombieHealth;
     private WeaponRecoil recoil;
     private Ray ray;
     private RaycastHit hitInfo;
@@ -97,7 +98,8 @@ public class RaycastPistol : MonoBehaviour
         float distance = direction.magnitude;
         ray.origin = start; 
         ray.direction = direction;
-          if(Physics.Raycast(ray, out hitInfo)) 
+       
+        if(Physics.Raycast(ray, out hitInfo)) 
         {
             hitEffect.transform.position = hitInfo.point;
             hitEffect.transform.forward = hitInfo.normal;
@@ -105,6 +107,17 @@ public class RaycastPistol : MonoBehaviour
 
             bullet.tracer.transform.position = hitInfo.point;
             bullet.time = maxLifetime;
+            
+            if (hitInfo.collider.gameObject.tag == "ZombieHead")
+            {
+                zombieHealth = hitInfo.collider.gameObject.GetComponentInParent<ZombieHealth>();
+                zombieHealth.health = 0f;
+            }
+            if (hitInfo.collider.gameObject.tag == "ZombieBody")
+            {
+                zombieHealth = hitInfo.collider.gameObject.GetComponentInParent<ZombieHealth>();
+                zombieHealth.health = zombieHealth.health - 10f;
+            }
         }
         else
         {

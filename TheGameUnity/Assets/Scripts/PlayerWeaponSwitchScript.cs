@@ -7,6 +7,7 @@ using UnityEngine.Animations.Rigging;
 public class PlayerWeaponSwitchScript : MonoBehaviour
 {
 
+    public Rig bodyAimLayer;
     public Rig pistolInHandLayer;
     public Rig assaultRiffleInHandLayer;
     public Rig pistolWeaponPoseLayer;

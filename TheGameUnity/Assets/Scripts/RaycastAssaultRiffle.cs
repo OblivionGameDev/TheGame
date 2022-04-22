@@ -25,6 +25,7 @@ public class RaycastAssaultRiffle : MonoBehaviour
 
     Ray ray;
     RaycastHit hitInfo;
+    private ZombieHealth zombieHealth;
     private float accumulatedTime;
     private float maxLifetime = 3f;
     private WeaponRecoil recoil;
@@ -99,7 +100,7 @@ public class RaycastAssaultRiffle : MonoBehaviour
         float distance = direction.magnitude;
         ray.origin = start; 
         ray.direction = direction;
-          if(Physics.Raycast(ray, out hitInfo)) 
+        if(Physics.Raycast(ray, out hitInfo)) 
         {
             hitEffect.transform.position = hitInfo.point;
             hitEffect.transform.forward = hitInfo.normal;
@@ -107,6 +108,17 @@ public class RaycastAssaultRiffle : MonoBehaviour
 
             bullet.tracer.transform.position = hitInfo.point;
             bullet.time = maxLifetime;
+
+            if (hitInfo.collider.gameObject.tag == "ZombieHead")
+            {
+                zombieHealth = hitInfo.collider.gameObject.GetComponentInParent<ZombieHealth>();
+                zombieHealth.health = 0f;
+            }
+            if (hitInfo.collider.gameObject.tag == "ZombieBody")
+            {
+                zombieHealth = hitInfo.collider.gameObject.GetComponentInParent<ZombieHealth>();
+                zombieHealth.health = zombieHealth.health - 10f;
+            }
         }
         else
         {

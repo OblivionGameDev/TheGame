@@ -9,6 +9,10 @@ TagManager:
   - AssaultRiffleOnBack
   - AssaultRiffleInHand
   - VirtualCamera
+  - Zombie
+  - ZombieBody
+  - ZombieHead
+  - DogTarget
   layers:
   - Default
   - TransparentFX
