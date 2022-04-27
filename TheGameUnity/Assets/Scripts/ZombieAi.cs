@@ -9,12 +9,15 @@ public class ZombieAi : MonoBehaviour
     public enum AIState { idle, chasing, attack, dead};
     public AIState aiState = AIState.idle;     
 
+    private AiSensor aiSensorScript;
     private NavMeshAgent nm;
     private Transform target;
     private Animator zombieAnimator;
+    private float dist;
     // Start is called before the first frame update
     void Awake()
     {
+        aiSensorScript = GetComponent<AiSensor>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
         zombieAnimator = GetComponent<Animator>();
         nm = GetComponent<NavMeshAgent>();
@@ -24,18 +27,24 @@ public class ZombieAi : MonoBehaviour
     {
         zombieAnimator.SetFloat("Speed", nm.velocity.magnitude);
     }
+    public void CheckAttackRange()
+    {
+        if (dist > 2f)
+        {
+            zombieAnimator.SetBool("isAttacking", false);
+            aiState = AIState.chasing;
+            
+        }
+    }
     IEnumerator ZombieLogic()
     {
         while(true)
         {
-            float dist = Vector3.Distance(target.position, transform.position);
+            dist = Vector3.Distance(target.position, transform.position);
             switch (aiState)
             {
                 case AIState.idle:
-                    if (dist < chasingTreshold)
-                    {
-                        aiState = AIState.chasing;
-                    }
+                    if (aiSensorScript.isInSight) aiState = AIState.chasing;
                     // Check if dead
                     if(zombieAnimator.GetBool("isDead"))
                     {
@@ -46,6 +55,10 @@ public class ZombieAi : MonoBehaviour
                 case AIState.chasing:
                     zombieAnimator.SetBool("isRunning", true);
                     nm.SetDestination(target.position);
+                    if(aiSensorScript.isInSight)
+                    {
+                        transform.LookAt(target);
+                    }
                     if (dist > chasingTreshold)
                     {
                         zombieAnimator.SetBool("isRunning", false);
@@ -71,11 +84,7 @@ public class ZombieAi : MonoBehaviour
                         aiState = AIState.idle;
                         Debug.Log("idle");
                     }
-                    if (dist > 2f)
-                    {
-                        zombieAnimator.SetBool("isAttacking", false);
-                        aiState = AIState.chasing;
-                    }
+                    
                     // Check if dead
                     if(zombieAnimator.GetBool("isDead"))
                     {
@@ -86,7 +95,7 @@ public class ZombieAi : MonoBehaviour
                     nm.SetDestination(transform.position);
                 break;
             }
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
         }
     }
 }

@@ -20,6 +20,6 @@ public class ZombieHealth : MonoBehaviour
             zombieAnimator.SetBool("isDead", true);
             zombieCollider.enabled = false;
         }
-        Debug.Log(health);
+        
     }
 }
