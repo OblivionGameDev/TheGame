@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 45c5e57d8487bcb48b82305c9961d918
+guid: 2e3e3e7c02ead814aa71adb5520144c3
 ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable: []
@@ -7,38 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Celling
-    second: {fileID: 2100000, guid: b7b19dc4d9372db4a8efccf1fc6c310c, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Door1 Material
-    second: {fileID: 2100000, guid: 96442b5762723d642a1c4d3654c00641, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Floor1
-    second: {fileID: 2100000, guid: fc8a816ef1b81c34e9e6f949b1241d5d, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Glass Material
-    second: {fileID: 2100000, guid: 8f505a9f87b4ae4449e99e27f4c6cded, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Interior Walls
-    second: {fileID: 2100000, guid: 4a132171a5658e742aedbd169b9b9ae3, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Roof1
-    second: {fileID: 2100000, guid: 52c033cf73d22e64ea807d632b109064, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Walls
-    second: {fileID: 2100000, guid: 08d968dfce6c46e4db683d820d5d8662, type: 2}
+      name: Grass v1
+    second: {fileID: 2100000, guid: e5b2405f3ae7090449a6926bf8b88e08, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -80,7 +50,7 @@ ModelImporter:
     importLights: 0
     fileIdsGeneration: 2
     swapUVChannels: 0
-    generateSecondaryUV: 1
+    generateSecondaryUV: 0
     useFileUnits: 1
     keepQuads: 0
     weldVertices: 1
@@ -92,7 +62,7 @@ ModelImporter:
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
-    secondaryUVAreaDistortion: 15
+    secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVMarginMethod: 1
     secondaryUVMinLightmapResolution: 40

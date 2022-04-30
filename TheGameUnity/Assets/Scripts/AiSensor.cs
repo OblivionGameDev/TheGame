@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AiSensor : MonoBehaviour
 {
-    public GameObject player;
+    public GameObject zombieLookRef;
     public float distance = 10f;
     public float angle = 30f;
     public float height = 1f;
@@ -39,10 +39,10 @@ public class AiSensor : MonoBehaviour
     }
     public void IsInSight()
     {
+        Vector3 dest = zombieLookRef.transform.position;
         Vector3 origin = transform.position;
-        Vector3 dest = player.transform.position;
         Vector3 direction = dest - origin;
-        float dist = Vector3.Distance(player.transform.position, transform.position);
+        float dist = Vector3.Distance(zombieLookRef.transform.position, transform.position);
         origin.y = height - 0.25f;
         dest.y = origin.y;
         
@@ -61,8 +61,9 @@ public class AiSensor : MonoBehaviour
             isInSight = false;
         }   
         else
-        if(Physics.Linecast(origin, dest, occlusionLayers))
+        if(Physics.Linecast(origin, zombieLookRef.transform.position, occlusionLayers))
         {
+            Debug.DrawLine(origin, zombieLookRef.transform.position, Color.yellow, 0.1f);
             isInSight = false;
         } 
         else isInSight = true;
@@ -176,6 +177,6 @@ public class AiSensor : MonoBehaviour
         {
             Gizmos.color = Color.red;
         }
-        Gizmos.DrawSphere(player.transform.position, 0.5f);
+        Gizmos.DrawSphere(zombieLookRef.transform.position, 0.5f);
     }
 }

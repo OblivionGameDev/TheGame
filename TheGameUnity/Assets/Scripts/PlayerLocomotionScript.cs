@@ -12,6 +12,7 @@ public class PlayerLocomotionScript : MonoBehaviour
     public Transform cameraLookAt;
 
     [SerializeField] private float smoothInputSpeed = 0.1f;
+    private CharacterController controller;
     private PlayerWeaponSwitchScript playerWeaponSwitchScript;
     private Camera mainCamera; 
     private PlayerControls playerControls;
@@ -32,6 +33,7 @@ public class PlayerLocomotionScript : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        controller = GetComponent<CharacterController>();
         playerWeaponSwitchScript = GetComponent<PlayerWeaponSwitchScript>();
         playerControls = new PlayerControls();   
         playerControls.Player.Run.performed += ctx => RunBool();
@@ -46,6 +48,8 @@ public class PlayerLocomotionScript : MonoBehaviour
     {
         if (playerAnimator.GetBool("isCrouching"))
         {
+            controller.height = 1.25f;
+            controller.center = new Vector3(0, 0.65f, 0);   
             playerWeaponSwitchScript.assaultRiffleInHandLayer.weight = 0f;
             playerWeaponSwitchScript.assaultRiffleWeaponPoseLayer.weight = 0f;
             playerWeaponSwitchScript.assaultRiffleAimLayer.weight = 0f;
@@ -56,6 +60,8 @@ public class PlayerLocomotionScript : MonoBehaviour
         else if (!playerAnimator.GetBool("isCrouching"))
         {
             playerWeaponSwitchScript.bodyAimLayer.weight = 1f;
+            controller.height = 1.85f;
+            controller.center = new Vector3(0, 0.92f, 0);   
         }
     }
     // Update is called once per frame
