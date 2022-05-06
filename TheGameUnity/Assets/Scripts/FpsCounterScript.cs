@@ -6,6 +6,11 @@ public class FpsCounterScript : MonoBehaviour {
   string label = "";
 	float count;
 	
+	void Awake()
+	{
+		QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+	}
 	IEnumerator Start ()
 	{
 		GUI.depth = 2;

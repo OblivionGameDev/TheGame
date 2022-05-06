@@ -5,6 +5,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerLocomotionScript : MonoBehaviour
 {
+    public float gravity;
+    public float stepDown;
+    public float pushPower;
     [HideInInspector] public Animator playerAnimator;
     public Cinemachine.AxisState xAxis;
     public Cinemachine.AxisState yAxis;
@@ -28,7 +31,10 @@ public class PlayerLocomotionScript : MonoBehaviour
     private Vector2 rawInputVector;
     private Vector2 currentInputVector;
     private Vector2 smoothInputVelocity;
+    private Vector3 rootMotion;
+    private Vector3 velocity;
     private bool isRunning;
+    private bool playerIsInAir;
 
     // Start is called before the first frame update
     void Awake()
@@ -46,6 +52,8 @@ public class PlayerLocomotionScript : MonoBehaviour
     }
     void Update()
     {
+        xAxis.Update(Time.deltaTime);
+        yAxis.Update(Time.deltaTime);
         if (playerAnimator.GetBool("isCrouching"))
         {
             controller.height = 1.25f;
@@ -64,12 +72,34 @@ public class PlayerLocomotionScript : MonoBehaviour
             controller.center = new Vector3(0, 0.92f, 0);   
         }
     }
+
+    void OnAnimatorMove()
+    {
+        rootMotion += playerAnimator.deltaPosition;
+    }
     // Update is called once per frame
+
     void FixedUpdate()
     {
-        xAxis.Update(Time.deltaTime);
-        yAxis.Update(Time.deltaTime);
-
+        if (playerIsInAir)
+        {
+            velocity.y -= gravity * Time.fixedDeltaTime;
+            controller.Move(velocity * Time.fixedDeltaTime);
+            playerIsInAir = !controller.isGrounded;
+            rootMotion = Vector3.zero;
+        }
+        else 
+        {
+            controller.Move(rootMotion + Vector3.down * stepDown);
+            rootMotion = Vector3.zero;
+            if (!controller.isGrounded)
+            {
+                playerIsInAir = true;
+                velocity = playerAnimator.velocity;
+                velocity.y = 0f;
+            }
+        }
+    
         cameraLookAt.eulerAngles = new Vector3(yAxis.Value, xAxis.Value, 0);
 
         float yawCamera = mainCamera.transform.rotation.eulerAngles.y;
@@ -122,5 +152,28 @@ public class PlayerLocomotionScript : MonoBehaviour
     void OnDisable()
     {
         playerControls.Disable();
+    }
+
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        Rigidbody body = hit.collider.attachedRigidbody;
+
+        // no rigidbody
+        if (body == null || body.isKinematic)
+            return;
+
+        // We dont want to push objects below us
+        if (hit.moveDirection.y < -0.3f)
+            return;
+
+        // Calculate push direction from move direction,
+        // we only push objects to the sides never up and down
+        Vector3 pushDir = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+
+        // If you know how fast your character is trying to move,
+        // then you can also multiply the push velocity by that.
+
+        // Apply the push
+        body.velocity = pushDir * pushPower;
     }
 }
