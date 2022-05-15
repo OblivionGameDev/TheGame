@@ -10,21 +10,20 @@ public class WeaponShootingSounds : MonoBehaviour
 
     private PlayerWeaponAim playerWeaponAimScript;
     private PlayerWeaponSwitchScript playerWeaponSwitchScript;
+    private PlayerWeaponShoot playerWeaponShoot;
+
     
 
     void Awake()
     {
         playerWeaponAimScript = GetComponent<PlayerWeaponAim>();
         playerWeaponSwitchScript = GetComponent<PlayerWeaponSwitchScript>();
+        playerWeaponShoot = GetComponent<PlayerWeaponShoot>();
     }
     // Update is called once per frame
     void Update()
     {
-        if (playerWeaponAimScript.playerControls.Player.Shoot.triggered && playerWeaponAimScript.pistolAimed && playerWeaponAimScript.playerWeaponSwitchScript.pistolEquipped)
-        {
-            gunSound.Play();
-        }
-        if (playerWeaponAimScript.shootButtonPressed && playerWeaponAimScript.assaultRiffleAimed && playerWeaponAimScript.playerWeaponSwitchScript.assaultRiffleEquiped && !assaultRiffleSound.isPlaying)
+        if (playerWeaponShoot.shootButtonPressed && playerWeaponAimScript.playerWeaponSwitchScript.assaultRiffleEquiped && !assaultRiffleSound.isPlaying)
         {
             assaultRiffleSound.Play();
         }

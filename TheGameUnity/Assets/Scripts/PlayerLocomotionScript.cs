@@ -54,6 +54,7 @@ public class PlayerLocomotionScript : MonoBehaviour
     {
         xAxis.Update(Time.deltaTime);
         yAxis.Update(Time.deltaTime);
+
         if (playerAnimator.GetBool("isCrouching"))
         {
             controller.height = 1.25f;
@@ -81,6 +82,22 @@ public class PlayerLocomotionScript : MonoBehaviour
 
     void FixedUpdate()
     {
+        rawInputVector = playerControls.Player.Move.ReadValue<Vector2>();
+        currentInputVector = Vector2.SmoothDamp(currentInputVector, rawInputVector, ref smoothInputVelocity, smoothInputSpeed);
+        
+        if (isRunning)
+        {
+            newValueX = Mathf.Clamp(currentInputVector.x, runMin, runMax);
+            newValueY = Mathf.Clamp(currentInputVector.y, runMin, runMax);
+        } 
+        else
+        {
+            newValueX = Mathf.Clamp(currentInputVector.x, walkMin, walkMax);
+            newValueY = Mathf.Clamp(currentInputVector.y, walkMin, walkMax);
+        }
+        playerAnimator.SetFloat("xValue", newValueX);
+        playerAnimator.SetFloat("yValue", newValueY);
+        
         if (playerIsInAir)
         {
             velocity.y -= gravity * Time.fixedDeltaTime;
@@ -105,21 +122,8 @@ public class PlayerLocomotionScript : MonoBehaviour
         float yawCamera = mainCamera.transform.rotation.eulerAngles.y;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, yawCamera, 0), turnSpeed * Time.fixedDeltaTime);
 
-        rawInputVector = playerControls.Player.Move.ReadValue<Vector2>();
-        currentInputVector = Vector2.SmoothDamp(currentInputVector, rawInputVector, ref smoothInputVelocity, smoothInputSpeed);
 
-        if (isRunning)
-        {
-            newValueX = Mathf.Clamp(currentInputVector.x, runMin, runMax);
-            newValueY = Mathf.Clamp(currentInputVector.y, runMin, runMax);
-        } 
-        else
-        {
-            newValueX = Mathf.Clamp(currentInputVector.x, walkMin, walkMax);
-            newValueY = Mathf.Clamp(currentInputVector.y, walkMin, walkMax);
-        }
-        playerAnimator.SetFloat("xValue", newValueX);
-        playerAnimator.SetFloat("yValue", newValueY);
+
     }
 
     void RunBool()

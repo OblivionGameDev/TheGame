@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Windwaker
-  m_Shader: {fileID: -6465566751694194690, guid: a9aea49e19495174f80f910ddb189a37, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: b85c5e2c0d0c9774ab24e77078fc44cb, type: 3}
   m_ShaderKeywords: FOAM_SHADOWS_ON INTERSECTION_EFFECTS_ON SURFACE_FOAM_ON WATER_LIGHTING_ON
     WORLD_SPACE_UV_ON
   m_LightmapFlags: 4
@@ -20,12 +20,24 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _CausticsTexture:
+        m_Texture: {fileID: 2800000, guid: f2c40b951cee11943a1f6d5ec1b42f2c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _IntersectionFoamTexture:
         m_Texture: {fileID: 2800000, guid: 772031b03d9d46e4ab03e15c8e17718c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalsTexture:
+        m_Texture: {fileID: 2800000, guid: a41da5f5671718b47bbc71e9ef691103, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SurfaceFoamTexture:
         m_Texture: {fileID: 2800000, guid: 5293ac8cd3dd6f6478585f4f30abddf7, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _WaterColorGradientTexture:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -41,38 +53,67 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - FOAM_SHADOWS: 1
     - INTERSECTION_EFFECTS: 1
     - REFRACTION: 0
+    - SHORE_MOVEMENT: 0
     - SURFACE_FOAM: 1
+    - WATER_LIGHTING: 1
     - WORLD_SPACE_UV: 1
+    - _CausticsDepth: 0.6
+    - _CausticsScale: 2.41
+    - _CausticsShadowMask: 1
+    - _CausticsSpeed: 0.219
+    - _CausticsSplit: 0.318
+    - _CausticsStrength: 2.09
+    - _FoamShadowDepth: 10
+    - _FoamShadowStrength: 0.45
     - _IntersectionFoamBlend: 1
-    - _IntersectionFoamDepth: 3
+    - _IntersectionFoamDepth: 0.72
     - _IntersectionFoamScale: 0.19
+    - _IntersectionFoamShadowProjection: 15
     - _IntersectionWaterBlend: 0
+    - _LightingHardness: 0.914
+    - _LightingSmoothness: 0.75
+    - _NormalsStrength: 0.29
+    - _PlanarReflectionFresnel: 1.88
+    - _PlanarReflectionStrength: 0
     - _RefractionStrength: 0.3
     - _ShoreBlend: 1
     - _ShoreDepth: 0.18
     - _ShoreFade: 0.741
+    - _ShoreFoamBreakupScale: 0
+    - _ShoreFoamBreakupStrength: 0
+    - _ShoreFoamFrequency: 0
+    - _ShoreFoamSpeed: 0
+    - _ShoreFoamWidth: 0
     - _SurfaceFoamBlend: 1
+    - _SurfaceFoamHeightMask: 0
+    - _SurfaceFoamHeightMaskSmoothness: 0
+    - _SurfaceFoamShadowProjection: 15
+    - _UnderwaterRefractionStrength: 0.099
     - _WaterColorDepth: 4
     - _WaterColorHorizonDistance: 20
     m_Colors:
     - _IntersectionFoamColor: {r: 1, g: 1, b: 1, a: 1}
     - _IntersectionFoamMovement: {r: 0, g: 0, b: 0, a: 0}
     - _IntersectionFoamSampling: {r: 1, g: 0, b: 0, a: 0}
-    - _NormalsMovement: {r: 0.04, g: 1.12, b: 0, a: 0}
-    - _ShoreColor: {r: 0, g: 1, b: 0.30756018, a: 0}
+    - _LightingDiffuseColor: {r: 0, g: 0, b: 0, a: 0}
+    - _LightingSpecularColor: {r: 1, g: 1, b: 1, a: 0}
+    - _NormalsMovement: {r: 0.01, g: 0.94, b: 0, a: 0}
+    - _ShoreColor: {r: 0, g: 1, b: 0.30739516, a: 0}
     - _SurfaceFoamColor1: {r: 1, g: 1, b: 1, a: 0.3215686}
     - _SurfaceFoamColor2: {r: 1, g: 1, b: 1, a: 0.7294118}
     - _SurfaceFoamMovement: {r: 0.7, g: 0, b: 0.47, a: 0.01}
     - _SurfaceFoamSampling: {r: 0.305, g: 0, b: 0, a: 0}
     - _SurfaceFoamTilingAndOffset: {r: -1, g: -1, b: 0.57, a: 0.22}
-    - _WaterColorDeep: {r: 0, g: 0.28390655, b: 0.40560472, a: 1}
+    - _WaterColorDeep: {r: 0, g: 0.28374153, b: 0.40543973, a: 1}
     - _WaterColorHorizon: {r: 0, g: 0.7186141, b: 1, a: 1}
     - _WaterColorShallow: {r: 0, g: 0.52386224, b: 0.75471693, a: 1}
-    - _WaveColor: {r: 0, g: 0.24904016, b: 0.3584305, a: 1}
+    - _WaterColorUnderwater: {r: 0.20379949, g: 0.30967507, b: 0.517647, a: 0}
+    - _WaveColor: {r: 0, g: 0.24887514, b: 0.35826552, a: 1}
     - _WaveDirections: {r: 0, g: 0.53, b: 1, a: 0.33}
-    - _WaveVisuals: {r: 0.128, g: 7.9, b: 1, a: 0}
+    - _WaveVisuals: {r: 0.131, g: 4, b: 0.55, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3884871068361501984
 MonoBehaviour:

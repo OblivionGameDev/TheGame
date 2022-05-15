@@ -14,7 +14,9 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
     public Rig pistolAimLayer;
     public Rig assaultRiffleWeaponPoseLayer;
     public Rig assaultRiffleAimLayer;
+    public AmmoWidget ammoWidget;
 
+    private Ammo ammoScript;
     private PlayerControls playerControls;
     private PlayerWeaponAim playerWeaponAim;
     private PlayerLocomotionScript playerLocomotionScript;
@@ -32,6 +34,7 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
         playerLocomotionScript = GetComponent<PlayerLocomotionScript>();
         playerControls = new PlayerControls();
         playerWeaponAim = GetComponent<PlayerWeaponAim>();
+        ammoScript = GetComponent<Ammo>();
         pistolOnLeg = GameObject.FindGameObjectWithTag("PistolOnLeg");
         pistolInHand = GameObject.FindGameObjectWithTag("PistolInHand");
         assaultRiffleOnBack = GameObject.FindGameObjectWithTag("AssaultRiffleOnBack");
@@ -50,6 +53,8 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
             assaultRiffleInHandLayer.weight = 1f;
             assaultRiffleWeaponPoseLayer.weight =1f;
             assaultRiffleEquiped = true;
+            ammoScript.ammoCount = ammoScript.assaultRiffleAmmoCount;
+            ammoWidget.Refresh(ammoScript.ammoCount);
         } 
         else if (playerControls.Player.EquipAssaultRiffle.triggered && assaultRiffleEquiped && !pistolEquipped)
         {
@@ -72,6 +77,8 @@ public class PlayerWeaponSwitchScript : MonoBehaviour
             pistolOnLeg.SetActive(false);
             pistolInHandLayer.weight = 1f;
             pistolEquipped = true;
+            ammoScript.ammoCount = ammoScript.pistolAmmoCount;
+            ammoWidget.Refresh(ammoScript.ammoCount);
         } 
         else if (playerControls.Player.EquipPistol.triggered && pistolEquipped && !assaultRiffleEquiped)
         {

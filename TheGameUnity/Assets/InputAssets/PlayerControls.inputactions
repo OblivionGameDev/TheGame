@@ -57,7 +57,7 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Run",
@@ -72,6 +72,15 @@
                     "name": "Crouch",
                     "type": "Button",
                     "id": "5fd7cbd1-6e84-4885-9ba4-45fda1efc551",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "ee3e0211-26fe-432f-a5e7-5e3f1713edd9",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -219,6 +228,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Crouch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4573f034-6ba1-410c-a569-351cfd757b98",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

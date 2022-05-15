@@ -8,6 +8,17 @@ public class PlayerWeaponAim : MonoBehaviour
 {
     public Rig assaultRiffleAimLayer;
     public Rig pistolAimLayer;
+    public Rig leftHandPistolAimLayer;
+
+    private PistolReloadBoolHandler pistolReloadBoolHandlerScript;
+
+
+
+    // TEMPORARY
+    public AmmoWidget ammoWidgetScript;
+    public Ammo ammoScript;
+
+
 
 
     [HideInInspector] public bool assaultRiffleAimed = false;
@@ -15,23 +26,24 @@ public class PlayerWeaponAim : MonoBehaviour
     [HideInInspector] public Animator cameraAnimator;
     [HideInInspector] public PlayerControls playerControls;
     [HideInInspector] public PlayerWeaponSwitchScript playerWeaponSwitchScript;
-    [HideInInspector] public bool shootButtonPressed;
-    [HideInInspector] public bool shootButtonReleased;
     
     private PlayerLocomotionScript playerLocomotionScript;
     private RaycastAssaultRiffle raycastAssaultRiffleScript;
     private RaycastPistol raycastPistolScript;
     private float aimDuration = 0.15f;
+    private bool pistolIsAimedIsDone;
+    private bool coroutineStarted;
 
     // Start is called before the first frame update
     void Awake()
     {
+        pistolReloadBoolHandlerScript = GetComponentInChildren<PistolReloadBoolHandler>();
         playerLocomotionScript = GetComponent<PlayerLocomotionScript>();
         cameraAnimator = GameObject.FindGameObjectWithTag("VirtualCamera").GetComponent<Animator>();
         playerControls = new PlayerControls();
         playerWeaponSwitchScript = GetComponent<PlayerWeaponSwitchScript>();
-        raycastAssaultRiffleScript = GetComponentInChildren<RaycastAssaultRiffle>();
-        raycastPistolScript = GetComponentInChildren<RaycastPistol>();
+        raycastAssaultRiffleScript = GameObject.FindGameObjectWithTag("AssaultRiffleInHand").GetComponent<RaycastAssaultRiffle>();
+        raycastPistolScript = GameObject.FindGameObjectWithTag("PistolInHand").GetComponent<RaycastPistol>();
     }
 
     // Update is called once per frame
@@ -76,35 +88,21 @@ public class PlayerWeaponAim : MonoBehaviour
             playerLocomotionScript.xAxis.m_MaxSpeed = 200;
             playerLocomotionScript.yAxis.m_MaxSpeed = 200;
         } 
-        if (pistolAimed)
+        if (pistolAimed && pistolAimLayer.weight < 1)
         {
             pistolAimLayer.weight += Time.deltaTime / aimDuration;
         }
         else if (!pistolAimed) 
         {
             pistolAimLayer.weight -= Time.deltaTime / aimDuration;
+            leftHandPistolAimLayer.weight = 0;
         }
 
-        // Shooting with Assault Riffle
-        if (shootButtonPressed && assaultRiffleAimed && playerWeaponSwitchScript.assaultRiffleEquiped)
+        if (pistolAimed && !pistolReloadBoolHandlerScript.pistolReloadLeftHandIkBool)
         {
-            raycastAssaultRiffleScript.StartFiring();
+            leftHandPistolAimLayer.weight = 1;
         }
-        if (shootButtonReleased && assaultRiffleAimed)
-        {
-            raycastAssaultRiffleScript.StopFiring();
-            shootButtonPressed = false;
-            shootButtonReleased = false;
-        }
-        // Shooting with Pistol
-        if (playerControls.Player.Shoot.triggered && pistolAimed && playerWeaponSwitchScript.pistolEquipped)
-        {
-            raycastPistolScript.StartFiring();
-        } 
-        else 
-        {
-            raycastPistolScript.StopFiring();
-        }
+
         // Needs to be updated every frame!
         raycastAssaultRiffleScript.UpdateBullets(Time.deltaTime);
         raycastPistolScript.UpdateBullets(Time.deltaTime);
@@ -123,8 +121,7 @@ public class PlayerWeaponAim : MonoBehaviour
     void OnEnable()
     {
         playerControls.Enable();
-        playerControls.Player.Shoot.performed += ctx => shootButtonPressed = true;
-        playerControls.Player.Shoot.canceled += ctx => shootButtonReleased = true;
+        
     }
     void OnDisable()
     {

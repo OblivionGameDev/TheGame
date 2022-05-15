@@ -13,7 +13,7 @@ public class RaycastPistol : MonoBehaviour
     }
 
     public bool isFiring;
-    public float fireRate = 5;
+    public float fireRate;
     public float bulletSpeed = 30f;
     public float bulletDrop = 0f;
     public TrailRenderer tracerEffect;
@@ -21,13 +21,25 @@ public class RaycastPistol : MonoBehaviour
     public ParticleSystem muzzleFlash;
     public Transform raycastOrigin;
     public Transform raycastDestination; 
+    public GameObject magazine;
+    public AmmoWidget ammoWidgetScript;
 
+    
+    [HideInInspector] public Animator gunsAnimator;
+
+    private PlayerWeaponShoot playerWeaponShootScript;
+    private PlayerWeaponSwitchScript playerWeaponSwitchScript;
+    private WeaponShootingSounds weaponShootingSoundsScript;
+    
+    private Ammo ammoScript;
     private ZombieHealth zombieHealth;
     private WeaponRecoil recoil;
     private Ray ray;
     private RaycastHit hitInfo;
     private float accumulatedTime;
     private float maxLifetime = 3f;
+    private bool coroutineIsExecuting;
+    
     List<Bullet> bullets = new List<Bullet>();
 
     Vector3 GetPosition(Bullet bullet)
@@ -50,8 +62,31 @@ public class RaycastPistol : MonoBehaviour
     void Awake()
     {
         recoil = GetComponent<WeaponRecoil>();
+        ammoScript = GetComponentInParent<Ammo>();
+        playerWeaponShootScript = GetComponentInParent<PlayerWeaponShoot>();
+        playerWeaponSwitchScript = GetComponentInParent<PlayerWeaponSwitchScript>();
+        weaponShootingSoundsScript = GetComponentInParent<WeaponShootingSounds>();
+        gunsAnimator = GetComponentInParent<Animator>();
     }
 
+    void Update()
+    {
+        if (isFiring)
+        {
+            ammoWidgetScript.Refresh( ammoScript.ammoCount);
+        }
+        if(playerWeaponShootScript.shootButtonPressed && !coroutineIsExecuting && playerWeaponSwitchScript.pistolEquipped)
+        {
+            StartCoroutine("shootingWithAssaultRifle");
+            coroutineIsExecuting = true;
+        }
+        else if(!playerWeaponShootScript.shootButtonPressed && coroutineIsExecuting)
+        {
+            StopCoroutine("shootingWithAssaultRifle");
+            StopFiring();
+            coroutineIsExecuting = false;
+        }
+    }
     public void StartFiring()
     {
         isFiring = true;
@@ -63,11 +98,11 @@ public class RaycastPistol : MonoBehaviour
     {
         accumulatedTime += deltaTime;
         float fireInterval = 1.0f / fireRate;
-        while(accumulatedTime >= 0)
-        {
-        FireBullet();
-        accumulatedTime -= fireInterval;
-        }
+        //while(accumulatedTime >= 0)
+       // {
+       // FireBullet();
+       // accumulatedTime -= fireInterval;
+       // }
     }
 
     public void UpdateBullets(float deltaTime)
@@ -132,11 +167,37 @@ public class RaycastPistol : MonoBehaviour
 
     void FireBullet()
     {
+        if (ammoScript.ammoCount <= 0)
+        {
+            return;
+        }
+        ammoScript.pistolAmmoCount--;
+        ammoScript.ammoCount = ammoScript.pistolAmmoCount;
+
+        weaponShootingSoundsScript.gunSound.Play();
         muzzleFlash.Emit(1);
         Vector3 velocity = (raycastDestination.position - raycastOrigin.position).normalized * bulletSpeed; 
         var bullet = CreateBullet(raycastOrigin.position, velocity);
         bullets.Add(bullet);
         recoil.GenerateRecoil();
+        gunsAnimator.SetTrigger("pistolRecoil");
       
     }
+
+    IEnumerator shootingWithAssaultRifle()
+    {
+        while (true)
+        {
+            if(playerWeaponShootScript.shootButtonPressed)
+            {
+                StartFiring();
+            }
+            else if (!playerWeaponShootScript.shootButtonPressed)
+            {
+                StopFiring();
+            }
+            yield return new WaitForSeconds(fireRate);
+        }
+    }
+
 }
