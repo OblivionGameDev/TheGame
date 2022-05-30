@@ -59,7 +59,7 @@ public class ZombieAi : MonoBehaviour
                     {
                         transform.LookAt(target);
                     }
-                    if (dist > chasingTreshold)
+                    if (!aiSensorScript.isInSight)
                     {
                         zombieAnimator.SetBool("isRunning", false);
                         aiState = AIState.idle;
