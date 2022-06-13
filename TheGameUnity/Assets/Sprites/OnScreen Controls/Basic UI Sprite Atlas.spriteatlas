@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Basic UI Sprite Atlas
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 8
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 1
+      enableTightPacking: 1
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 2800000, guid: 2c30042d9f32bb9488a384ffc6938c99, type: 3}
+    - {fileID: 2800000, guid: d8d3fdc0133f92b4789e1229d6620978, type: 3}
+    - {fileID: 2800000, guid: 68d7c66de6355d042a6b21be53bb46d1, type: 3}
+    - {fileID: 2800000, guid: 5f9855bb5cdbea34aa24178021528cfa, type: 3}
+    - {fileID: 2800000, guid: 35b85200be2377a46a082d15510beec8, type: 3}
+    - {fileID: 2800000, guid: 360110c92c97e0947ae05b559263ff76, type: 3}
+    - {fileID: 2800000, guid: 4fe7621c54ef1a04f867918b84e7b3a7, type: 3}
+    - {fileID: 2800000, guid: d68e18a71ac27e243bd3cf75808d028a, type: 3}
+    - {fileID: 2800000, guid: d5ed09ab2bd25424e88a1f2d6479ea6f, type: 3}
+    - {fileID: 2800000, guid: d82ab730eba74814dae95073bf074f17, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 35b85200be2377a46a082d15510beec8, type: 3}
+  - {fileID: 21300000, guid: d82ab730eba74814dae95073bf074f17, type: 3}
+  - {fileID: 21300000, guid: d8d3fdc0133f92b4789e1229d6620978, type: 3}
+  - {fileID: 21300000, guid: d68e18a71ac27e243bd3cf75808d028a, type: 3}
+  - {fileID: 21300000, guid: 360110c92c97e0947ae05b559263ff76, type: 3}
+  - {fileID: 21300000, guid: d5ed09ab2bd25424e88a1f2d6479ea6f, type: 3}
+  - {fileID: 21300000, guid: 5f9855bb5cdbea34aa24178021528cfa, type: 3}
+  - {fileID: 21300000, guid: 4fe7621c54ef1a04f867918b84e7b3a7, type: 3}
+  - {fileID: 21300000, guid: 2c30042d9f32bb9488a384ffc6938c99, type: 3}
+  - {fileID: 21300000, guid: 68d7c66de6355d042a6b21be53bb46d1, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - shadedDark25
+  - shadedDark49
+  - shadedDark10
+  - shadedDark38
+  - shadedDark36
+  - shadedDark41
+  - shadedDark24
+  - shadedDark37
+  - shadedDark07
+  - shadedDark11
+  m_RenderDataMap: {}
+  m_Tag: Basic UI Sprite Atlas
+  m_IsVariant: 0
